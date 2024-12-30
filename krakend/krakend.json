@@ -44,8 +44,7 @@
         "backend": [
           {
             "url_pattern": "/ping",
-            "sd": "dns",
-            "sd_scheme": "http",
+            "method": "GET",
             "host": [
               "http://ping-service.service.consul:18080"
             ],
@@ -55,10 +54,11 @@
             }
           },
           {
-            "url_pattern": "/pong", "host": [
+            "url_pattern": "/pong",
+            "method": "GET",
+            "host": [
               "http://ping-service.service.consul:18080"
             ],
-            "method": "GET",
             "encoding": "json",
             "mapping": {
               "message": "pong"
