@@ -1,0 +1,38 @@
+{
+    "$schema": "https://www.krakend.io/schema/v2.8/krakend.json",
+    "version": 3,
+    "name": "KrakenD - API Gateway",
+    "timeout": "3000ms",
+    "cache_ttl": "300s",
+    "output_encoding": "no-op",
+    "endpoints": [
+      {
+        "endpoint": "/ping",
+        "method": "GET",
+        "output_encoding": "json",
+        "backend": [
+          {
+            "url_pattern": "/ping",
+            "method": "GET",
+            "host": [
+              "http://172.19.216.199:18080"
+            ]
+          }
+        ]
+      },
+      {
+        "endpoint": "/pong",
+        "method": "GET",
+        "output_encoding": "json",
+        "backend": [
+          {
+            "url_pattern": "/pong",
+            "method": "GET",
+            "host": [
+              "http://172.19.216.199:18080"
+            ]
+          }
+        ]
+      }
+    ]
+}
