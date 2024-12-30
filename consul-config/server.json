@@ -1,0 +1,12 @@
+{
+    "recursors": [
+      "1.1.1.1",
+      "9.9.9.9"
+    ],
+    "dns_config": {
+      "recursor_strategy": "random"
+    },
+    "ports": {
+      "dns": 53
+    }
+  }

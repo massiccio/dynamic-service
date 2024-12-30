@@ -4,18 +4,21 @@
     "name": "KrakenD - API Gateway",
     "timeout": "3000ms",
     "cache_ttl": "300s",
+    "dns_cache_ttl": "30s",
     "output_encoding": "no-op",
+    "port": 8080,
     "endpoints": [
       {
         "endpoint": "/ping",
         "method": "GET",
+        "concurrent_calls": 3,
         "output_encoding": "json",
         "backend": [
           {
             "url_pattern": "/ping",
             "method": "GET",
             "host": [
-              "http://172.19.216.199:18080"
+              "http://ping-service.service.consul:18080"
             ]
           }
         ]
@@ -29,8 +32,37 @@
             "url_pattern": "/pong",
             "method": "GET",
             "host": [
-              "http://172.19.216.199:18080"
+              "http://192.0.2.101:18080"
             ]
+          }
+        ]
+      },
+      {
+        "endpoint": "/ping-pong",
+        "method": "GET",
+        "output_encoding": "json",
+        "backend": [
+          {
+            "url_pattern": "/ping",
+            "sd": "dns",
+            "sd_scheme": "http",
+            "host": [
+              "http://ping-service.service.consul:18080"
+            ],
+            "encoding": "json",
+            "mapping": {
+              "message": "ping"
+            }
+          },
+          {
+            "url_pattern": "/pong", "host": [
+              "http://ping-service.service.consul:18080"
+            ],
+            "method": "GET",
+            "encoding": "json",
+            "mapping": {
+              "message": "pong"
+            }
           }
         ]
       }

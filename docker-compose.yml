@@ -1,0 +1,97 @@
+services:
+  krakend:
+    image: devopsfaith/krakend:watch
+    container_name: krakend
+    command: ["run", "-c", "/etc/krakend/krakend.json"]
+    ports:
+      - "8080:8080"
+      - "8090:8090"  # Exposing the dashboard port
+    volumes:
+      - "./krakend/krakend.json:/etc/krakend/krakend.json"
+    networks:
+      - vpcbr
+    depends_on:
+      ping-service:
+        condition: service_started
+      consul:
+        condition: service_started
+    dns:
+      - "192.0.2.10"  # Specify Consul's DNS IP here
+
+
+  ping-service:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: ping-service
+    ports:
+     - "18080:18080"
+    environment:
+      - CONSUL_HTTP_ADDR=http://192.0.2.10:8500
+      - SERVICE_NAME=ping-service
+      - SERVICE_PORT=18080
+    networks:
+      - vpcbr
+      #vpcbr:
+        #ipv4_address: 192.0.2.101
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18080/ping"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
+    labels:
+      - "consul.service.name=ping-service"
+      - "consul.service.checks=ping-service-health"
+    depends_on:
+      consul:
+        condition: service_started
+
+  consul:
+    image: hashicorp/consul:latest
+    container_name: consul
+    #restart: always
+    ports:
+      - '8500:8500'
+      - '8600:53/tcp'
+      - '8600:53/udp'
+    volumes:
+      - ./consul-config:/consul/config
+    networks:
+      vpcbr:
+        ipv4_address: 192.0.2.10
+    # environment:
+    #   CONSUL_LOCAL_CONFIG: |
+    #     {
+    #       "recursors": [
+    #         "1.1.1.1",
+    #         "9.9.9.9"
+    #       ],
+    #       "dns_config": {
+    #         "recursor_strategy": "round_robin"
+    #       },
+    #       "ports": {
+    #         "dns": 53
+    #       }
+    #     }
+
+networks:
+  vpcbr:
+      driver: bridge
+      ipam:
+        config:
+        - subnet: 192.0.2.0/24
+
+
+
+# curl -X PUT -d @register.json http://localhost:8500/v1/agent/service/register
+
+
+  # debug:
+  #   image: busybox
+  #   container_name: kraken_conf_debug
+  #   volumes:
+  #     - "./krakend.json:/etc/krakend/krakend.json"
+  #   command: ["sh", "-c", "cat /etc/krakend/krakend.json"]
+
+
