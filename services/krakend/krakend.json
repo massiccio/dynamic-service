@@ -2,6 +2,13 @@
     "$schema": "https://www.krakend.io/schema/v2.8/krakend.json",
     "version": 3,
     "name": "KrakenD - API Gateway",
+    "extra_config": {
+      "telemetry/logging": {
+        "level": "INFO",
+        "format": "default",
+        "stdout": true
+      }
+    },
     "timeout": "3000ms",
     "cache_ttl": "300s",
     "dns_cache_ttl": "30s",
