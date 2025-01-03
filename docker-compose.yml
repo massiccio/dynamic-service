@@ -26,7 +26,6 @@ services:
     command: ["run", "-c", "/etc/krakend/krakend.json"]
     # ports:
       # - "8080:8080"
-      # - "8090:8090"  # Exposing the dashboard port
     volumes:
       - "./services/krakend/krakend.json:/etc/krakend/krakend.json"
     networks:
@@ -93,14 +92,6 @@ services:
     # environment:
       # - CONSUL_BIND_INTERFACE=eth0
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - vpcbr
-
 networks:
   vpcbr:
       driver: bridge
@@ -111,17 +102,3 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
-
-
-
-# curl -X PUT -d @register.json http://localhost:8500/v1/agent/service/register
-
-
-  # debug:
-  #   image: busybox
-  #   container_name: kraken_conf_debug
-  #   volumes:
-  #     - "./krakend.json:/etc/krakend/krakend.json"
-  #   command: ["sh", "-c", "cat /etc/krakend/krakend.json"]
-
-
