@@ -55,9 +55,12 @@
             "host": [
               "http://ping-service.service.consul:18080"
             ],
+            "group": "ping",
             "encoding": "json",
             "mapping": {
-              "message": "ping"
+              "message": "ping-message",
+              "serviceID": "ping-serviceID",
+              "serviceIP": "ping-serviceIP"
             }
           },
           {
@@ -66,9 +69,12 @@
             "host": [
               "http://ping-service.service.consul:18080"
             ],
+            "group": "pong",
             "encoding": "json",
             "mapping": {
-              "message": "pong"
+              "message": "pong-message",
+              "serviceID": "pong-serviceID",
+              "serviceIP": "pong-serviceIP"
             }
           }
         ]
