@@ -11,17 +11,6 @@
     },
     "services": [
       {
-        "name": "redis",
-        "port": 6379,
-        "tags": ["cache", "database"],
-        "address": "redis",
-        "check": {
-          "tcp": "redis:6379",
-          "interval": "10s",
-          "timeout": "5s"
-        }
-      },
-      {
         "name": "krakend",
         "port": 8080,
         "tags": ["api-gateway"],
