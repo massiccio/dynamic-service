@@ -7,18 +7,18 @@
       output stdout
       format json
       include http.log.access admin.api
-	  }
+	}
 
     auto_https disable_redirects
 }
 
 # Redirect http -> https
 http:// {
-  redir https://{host}:8443{uri} 308
+    redir https://{host}:8443{uri} 308
 }
 
 # Explicit HTTPS with TLS for localhost
 https://localhost {
-  reverse_proxy krakend:8080
-  tls internal
+    reverse_proxy krakend:8080
+    tls internal
 }
