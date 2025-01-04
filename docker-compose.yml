@@ -1,7 +1,7 @@
 services:
 
   caddy:
-    image: caddy:latest
+    image: caddy:2.8.4
     container_name: caddy
     ports:
       - "8080:80"
@@ -21,7 +21,7 @@ services:
     - NET_BIND_SERVICE
 
   krakend:
-    image: devopsfaith/krakend:watch
+    image: devopsfaith/krakend:2.8-watch
     container_name: krakend
     command: ["run", "-c", "/etc/krakend/krakend.json"]
     # ports:
@@ -75,7 +75,7 @@ services:
         condition: service_started
 
   consul:
-    image: hashicorp/consul:latest
+    image: hashicorp/consul:1.20
     container_name: consul
     restart: always
     ports:
