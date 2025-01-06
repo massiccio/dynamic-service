@@ -18,8 +18,7 @@ jobs:
         go-version: '1.23'
     - name: Install dependencies
       working-directory: ./app
-      #run: go mod download && go mod verify
-      run: go get .
+      run: go mod download && go mod verify
     - name: Build
       working-directory: ./app
       run: go build -v -o main .
